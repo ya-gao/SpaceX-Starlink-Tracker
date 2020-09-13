@@ -9,7 +9,6 @@ class SatelliteList extends Component {
     }
 
     onChange = e => {
-        console.log(e.target);
         const { dataInfo, checked } = e.target;
 
         // get selected array
@@ -36,14 +35,19 @@ class SatelliteList extends Component {
         return list;
     }
 
+    showMap = () => {
+        const { selected } = this.state;
+        this.props.onShowMap(selected);
+    }
+
     render() {
-        console.log(this.state.selected);
         const { satInfo, isLoad } = this.props;
         const satList = satInfo ? satInfo.above : [];
+        const { selected } = this.state;
 
         return (
             <div className="sat-list-box">
-                <Button className="sat-list-btn" size="large">
+                <Button className="sat-list-btn" size="large" disabled={selected.length === 0} onClick={this.showMap}>
                     Track on the map
                 </Button>
                 <hr />

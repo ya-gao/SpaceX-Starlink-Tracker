@@ -4,6 +4,7 @@ import axios from 'axios';
 import { NEARBY_SATELLITE, SAT_API_KEY, STARLINK_CATEGORY } from '../constants';
 import SatSetting from './SatSetting';
 import SatelliteList from './SatelliteList';
+import WorldMap from './WorldMap';
 
 class Main extends Component {
     constructor() {
@@ -25,7 +26,6 @@ class Main extends Component {
 
         axios.get(url)
             .then(response => {
-                console.log(response);
                 this.setState({
                     satInfo: response.data,
                     isLoadingList: false
@@ -36,16 +36,22 @@ class Main extends Component {
             })
     } 
 
+    showMap = satList => {
+        console.log(satList);
+    }
+
     render() {
         const { isLoadingList, satInfo } = this.state;
         return (
             <div className="main">
                 <div className="left-side">
                     <SatSetting onShow={this.showNearbySatellite} />
-                    <SatelliteList isLoad={isLoadingList} satInfo={satInfo} />
+                    <SatelliteList isLoad={isLoadingList} satInfo={satInfo} onShowMap={this.showMap} />
                 </div>
                 
-                <div className="right-side">right</div>
+                <div className="right-side">
+                    <WorldMap />
+                </div>
             </div>
         )
     }
