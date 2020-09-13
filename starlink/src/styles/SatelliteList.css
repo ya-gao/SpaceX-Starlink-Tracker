@@ -1,0 +1,16 @@
+.sat-list-box {
+    border: 2px solid #ccc;
+    height: 410px;
+    margin-top: 10px;
+    padding: 10px;
+}
+
+.sat-list-btn {
+    text-transform: none;
+    padding: 10px 36px;
+    background-color: #2bb673;
+    font-size: 1em;
+    color: #fff;
+}
+
+
