@@ -13,4 +13,16 @@
     color: #fff;
 }
 
+.sat-list {
+    height: 335px;
+    overflow: scroll;
+}
+
+.spin-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 335px;;
+}
+
 

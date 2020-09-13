@@ -1,8 +1,43 @@
 import React, { Component } from 'react';
-import { Button, Spin } from 'antd';
+import { Button, Spin, List, Avatar, Checkbox } from 'antd';
+
+import satellite from '../assets/images/satellite.svg';
 
 class SatelliteList extends Component {
+    state = {
+        selected: []
+    }
+
+    onChange = e => {
+        console.log(e.target);
+        const { dataInfo, checked } = e.target;
+
+        // get selected array
+        const { selected } = this.state;
+
+        // push or remove satellite
+        const list = this.addOrRemove(dataInfo, checked, selected);
+
+        // setState
+        this.setState({ selected: list });
+    }
+
+    addOrRemove = (item, status, list) => {
+        // step1: check item is in list
+        const found = list.some( entry => entry.satid === item.satid );
+        
+        if (status && !found) {
+            list.push(item);
+        }
+
+        if (!status && found) {
+            list = list.filter( entry => entry.satid !== item.satid );
+        }
+        return list;
+    }
+
     render() {
+        console.log(this.state.selected);
         const { satInfo, isLoad } = this.props;
         const satList = satInfo ? satInfo.above : [];
 
@@ -16,10 +51,24 @@ class SatelliteList extends Component {
                 {
                     isLoad ? 
                         <div className="spin-box">
-                            <Spin tip="Loading..." ize="large" />
+                            <Spin tip="Loading..." size="large" />
                         </div> 
                         :
-                        <div>data</div>
+                        <List
+                            className="sat-list" 
+                            itemLayout="horizontal"
+                            dataSource={satList}
+                            renderItem={ item => (
+                                <List.Item actions={[<Checkbox onChange={this.onChange} dataInfo={item} />]}>
+                                    <List.Item.Meta 
+                                        avatar={<Avatar src={satellite} size="large" alt="satellite" />} 
+                                        title={<p>{item.satname}</p>}
+                                        description={`Launch Date: ${item.launchDate}`}
+                                    />
+                                </List.Item>
+                            )}
+
+                        />
                 }
             </div>
         )
